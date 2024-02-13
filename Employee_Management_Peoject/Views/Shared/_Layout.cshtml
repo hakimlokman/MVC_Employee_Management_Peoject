@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>@Page.Title</title>
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a href="# " class="navbar-brand"><i class="fa fa-television"></i>TechNex Innovations</a>
+            <div class="navbar nav" style="color:white">
+                <div class="nav-item">
+                    @Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link active" })
+                </div>
+                <div class="nav-item">
+                    @Html.ActionLink("Deparment", "Index", "Departments", new { }, new { @class = "nav-link" })
+
+                </div>
+                <div class="nav-item">
+                    @Html.ActionLink("Skill", "Index", "Skill", new { }, new { @class = "nav-link" })
+
+                </div>
+                <div class="nav-item">
+                    @Html.ActionLink("Employee", "Index", "Employee", new { }, new { @class = "nav-link" })
+
+                </div>
+                <div class="form-check form-switch mr-5">
+                    <input type="checkbox" class="form-check-input" id="selector">
+                    <label class="form-check-label " for="customCheck" style="color:blue;">Dark Mode</label>
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["DeleteMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["DeleteMessage"]</div>
+    }
+
+    <div class="container-fluid mt-3" id="body">
+        @RenderBody()
+
+    </div>
+    <footer class="container-fluid">
+        <p class="text-center">&copy;-@DateTime.Now.Year-www.technex.com</p>
+    </footer>
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#selector").change(function () {
+                $("body").toggleClass("bg-secondary");
+                $("nav").toggleClass("navbar-dark bg-dark");
+                $(".form-check-label ").toggleClass("text-white");
+                $("#body").toggleClass("text-white");
+
+            });
+        });
+    </script>
+</body>
+</html>

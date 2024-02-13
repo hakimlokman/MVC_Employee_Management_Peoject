@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+    <div class="col">
+        <div id="form-div">
+            @Html.Action("EditForm")
+        </div>
+    </div>
+</div>
+<div>
+    <a href="@Url.Action("Index","Employee")" class="btn btn-link"><i class="fa fa-arrow-left"></i>Back to List</a>
+</div>

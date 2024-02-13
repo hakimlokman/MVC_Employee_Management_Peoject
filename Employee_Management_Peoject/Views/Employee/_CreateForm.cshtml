@@ -1,0 +1,188 @@
+﻿@model  Employee_Management_Peoject.Models.ViewModel.EmployeeViewModel
+
+@using (Ajax.BeginForm("Create", "Employee", new { }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "form-div",
+    OnSuccess = "OnSuccess"
+}, new { id = "frm1", enctype = "multipart/form-data" }))
+{
+    <h2 class="display-4">Add New Employee</h2>
+    <div class="row mb-2">
+        <div class="col-md-8">
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.DepartmentId, new { @class = "col-form-label col-3 " })
+                <div class="col-6">
+                    @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "DepartmentId", "DepartmentName"), "---Select Department----", new { @class = "form-select" })
+                </div>
+                <div class="col-3">
+                    @Html.ValidationMessageFor(x => x.DepartmentId, "* REQUIRED", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.SkillId, new { @class = "col-form-label col-3" })
+                <div class="col-6">
+                    @Html.DropDownListFor(x => x.SkillId, new SelectList(ViewBag.Skilll, "SkillId", "SkillName"), "---Select Skill---", new { @class = "form-select" })
+                </div>
+                <div class="col-3">
+                    @Html.ValidationMessageFor(x => x.SkillId, "* REQUIRED", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Name, new { @class = "col-form-label col-3" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                </div>
+                <div class="col-3">
+                    @Html.ValidationMessageFor(x => x.Name, "* REQUIRED", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.JoinDate, new { @class = "col-form-label col-3" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.JoinDate, new { @class = "form-control", type = "date" })
+                </div>
+                <div class="col-3">
+                    @Html.ValidationMessageFor(x => x.JoinDate, "* REQUIRED", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-10 offset-3">
+                    <div class="form-check">
+                        <label>
+                            Active Status
+                        </label>
+                        @Html.CheckBoxFor(x => x.Status)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row mb-2">
+                <div>
+                    @Html.LabelFor(x => x.Picture, new { @class = "col-form-label mb-2 " })
+                    <input type="file" name="Picture" id="picture" accept="image/*" onchange="previewImage(this)" class="form-control" />
+                    <img id="preview" src="#" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;" class="mt-2" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-10">
+            <div class="d-flex justify-content-between">
+                <h3>Employee Details</h3>
+                <button id="addButton" class="btn btn-outline-primary btn-sm" type="submit" name="act" value="add" formnovalidate>+</button>
+            </div>
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Designation</th>
+                        <th>Experiance</th>
+                        <th>PriviousCompany</th>
+                        <th>Salary</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.EmployeeDetails.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.EnumDropDownListFor(x => Model.EmployeeDetails[i].Designation, "Select Designation", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => Model.EmployeeDetails[i].Designation, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => Model.EmployeeDetails[i].Experiance, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => Model.EmployeeDetails[i].Experiance, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => Model.EmployeeDetails[i].PriviousCompany, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => Model.EmployeeDetails[i].PriviousCompany, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(x => Model.EmployeeDetails[i].Salary, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => Model.EmployeeDetails[i].Salary, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EnumDropDownListFor(x => Model.EmployeeDetails[i].Performance, "Select", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(x => Model.EmployeeDetails[i].Performance, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <button name="act" value="remove_@i" type="submit" class="btn btn-danger btn-sm" formnovalidate>Remove</button>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row mb-2 d-flex justify-content-end">
+        <div class="col-6">
+            <button type="submit" name="act" value="insert" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+}
+
+
+
+
+@section scripts
+{
+    <script>
+        function previewImage(input) {
+            var preview = $("#preview");
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.attr("src", e.target.result);
+                    preview.show();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function addRow() {
+            var newRow = $("#detailsTemplate").clone();
+            newRow.removeAttr("id");
+            newRow.find(":input").val("");
+            newRow.find("#preview").attr("src", "").hide();
+            $("#detailsTable tbody").append(newRow);
+            
+        }
+
+        function removeRow(button) {
+            $(button).closest("tr").remove();
+        }
+
+        $(document).ready(function () {
+            $("#picture").change(function () {
+                previewImage(this);
+            });
+
+        //    $("#addButton").click(function () {
+        //        addRow();
+               
+        //    });
+
+        //    $(document).on("click", ".removeButton", function () {
+        //        removeRow(this);
+        //    });
+
+        //    $("#frm1").submit(function (e) {
+        //        e.preventDefault();
+        //        alert("Form submitted successfully!");
+        //        var formData = $(this).serialize();
+        //    });
+        //});
+      
+    </script>
+}
+
+<div>
+    <a href="@Url.Action("Index","Employee")" class="btn btn-link"><i class="fa fa-arrow-left"></i>Back to List</a>
+</div>
+
+

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Employee_Management_Peoject.Models.Department>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-4 text-center">Department List</h2>
+<div class="d-flex justify-content-end mb-3">
+    <a href="@Url.Action("Create","Departments")" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>Add New Department</a>
+</div>
+
+<div class="d-flex justify-content-between">
+    <table class="table table-bordered table-striped table-sm  table-hover">
+        <thead class="table-info">
+            <tr>
+                <th>Department Id</th>
+                <th>Department Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => item.DepartmentId)</td>
+                    <td>@Html.DisplayFor(x => item.DepartmentName)</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Departments", new {id=item.DepartmentId})" class="btn btn-outline-success"><i class="fa fa-pencil"></i></a>
+                        <a href="@Url.Action("Delete", "Departments", new {id=item.DepartmentId})" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                    </td>
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

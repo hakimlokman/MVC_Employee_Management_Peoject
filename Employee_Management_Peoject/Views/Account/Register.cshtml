@@ -1,0 +1,55 @@
+﻿@model Employee_Management_Peoject.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<section class="h-100 gradient-form" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-8">
+                <div class="card rounded-3 text-black">
+                    <div class="row g-0">
+                        <div class="col-lg-12 text-center">
+                            <div class="card-body p-md-5 mx-md-4 ">
+                                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <h4>Register Here</h4>
+                                    <hr />
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                                    <div class="row mb-2">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-4 col-form-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-4 col-form-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 col-form-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="offset-md-2 col-md-10 mt-2">
+                                            <input type="submit" value="Register" class="btn btn-success" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
